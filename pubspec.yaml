@@ -1,0 +1,22 @@
+name: json_to_store_menu
+description: A simple Flutter package to convert a JSON to a store menu
+version: 0.0.1
+author: Josue Amaya - @c3rberuss
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  json_annotation: ^3.1.1
+  json_serializable: ^3.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^1.10.6
+
+flutter:
