@@ -13,6 +13,10 @@ class JsonStoreMenuBuilder extends StatefulWidget {
     @required this.dropdownBuilder,
     @required this.dropdownItemBuilder,
     this.onInit,
+    this.activeColor,
+    this.checkColor,
+    this.focusColor,
+    this.hoverColor,
   });
 
   final String form;
@@ -23,6 +27,10 @@ class JsonStoreMenuBuilder extends StatefulWidget {
   final Widget Function(String, double) itemTitleBuilder;
   final Widget Function(String, double) dropdownItemBuilder;
   final Widget Function(List<DropdownMenuItem<int>>, int, Function(int)) dropdownBuilder;
+  final Color activeColor;
+  final Color checkColor;
+  final Color focusColor;
+  final Color hoverColor;
 
   @override
   _JsonStoreMenuBuilderState createState() => _JsonStoreMenuBuilderState();
@@ -79,6 +87,9 @@ class _JsonStoreMenuBuilderState extends State<JsonStoreMenuBuilder> {
               Radio<int>(
                 value: item.value,
                 groupValue: _radioButtonsValues[group.key],
+                activeColor: widget.activeColor,
+                focusColor: widget.focusColor,
+                hoverColor: widget.hoverColor,
                 onChanged: (int newValue) {
                   setState(() {
                     _radioButtonsValues[group.key] = item.value;
@@ -131,6 +142,10 @@ class _JsonStoreMenuBuilderState extends State<JsonStoreMenuBuilder> {
               widget.itemTitleBuilder(item.label, item.price),
               Checkbox(
                 value: item.selected ?? false,
+                checkColor: widget.checkColor,
+                activeColor: widget.activeColor,
+                focusColor: widget.focusColor,
+                hoverColor: widget.hoverColor,
                 onChanged: (bool value) {
                   result[group.key]['value'] = _checkboxesValues[group.key];
                   setState(() {
