@@ -68,33 +68,42 @@ class _JsonStoreMenuBuilderState extends State<JsonStoreMenuBuilder> {
           };
         }
 
+        final List<Widget> groupItems = [];
+
         for (int itemIndex = 0; itemIndex < group.items.length; itemIndex++) {
           final item = group.items[itemIndex];
+          final groupItemWidget = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              widget.itemTitleBuilder(item.label, item.price),
+              Radio<int>(
+                value: item.value,
+                groupValue: _radioButtonsValues[group.key],
+                onChanged: (int newValue) {
+                  setState(() {
+                    _radioButtonsValues[group.key] = item.value;
+                    result[group.key]['value'] = item.value;
+                    result[group.key]['subtotal'] = item.price;
+                  });
 
-          widgets.add(
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: widget.itemTitleBuilder(item.label, item.price),
-                ),
-                Radio<int>(
-                  value: item.value,
-                  groupValue: _radioButtonsValues[group.key],
-                  onChanged: (int newValue) {
-                    setState(() {
-                      _radioButtonsValues[group.key] = item.value;
-                      result[group.key]['value'] = item.value;
-                      result[group.key]['subtotal'] = item.price;
-                    });
-
-                    _handleChanges();
-                  },
-                ),
-              ],
-            ),
+                  _handleChanges();
+                },
+              ),
+            ],
           );
+
+          if (group.showHorizontal) {
+            groupItems.add(groupItemWidget);
+          } else {
+            widgets.add(groupItemWidget);
+          }
+        }
+
+        if (group.showHorizontal) {
+          widgets.add(Wrap(children: groupItems));
         }
       }
+
       if (group.type == "multi") {
         if (firstTime) {
           _checkboxesValues[group.key] = group.value;
@@ -112,38 +121,46 @@ class _JsonStoreMenuBuilderState extends State<JsonStoreMenuBuilder> {
           _updateSubtotalCheckboxes(group.key);
         }
 
+        final List<Widget> groupItems = [];
+
         for (int itemIndex = 0; itemIndex < group.items.length; itemIndex++) {
           final item = group.items[itemIndex];
+          final groupItemWidget = Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              widget.itemTitleBuilder(item.label, item.price),
+              Checkbox(
+                value: item.selected ?? false,
+                onChanged: (bool value) {
+                  result[group.key]['value'] = _checkboxesValues[group.key];
+                  setState(() {
+                    form.groups[index].items[itemIndex].selected = value;
 
-          widgets.add(
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: widget.itemTitleBuilder(item.label, item.price),
-                ),
-                Checkbox(
-                  value: item.selected ?? false,
-                  onChanged: (bool value) {
-                    result[group.key]['value'] = _checkboxesValues[group.key];
-                    setState(() {
-                      form.groups[index].items[itemIndex].selected = value;
+                    if (value) {
+                      result[group.key]['subtotal'] += item.price;
+                      _checkboxesValues[group.key].add(item.value);
+                    } else {
+                      result[group.key]['subtotal'] -= item.price;
+                      _checkboxesValues[group.key].remove(item.value);
+                    }
+                  });
 
-                      if (value) {
-                        result[group.key]['subtotal'] += item.price;
-                        _checkboxesValues[group.key].add(item.value);
-                      } else {
-                        result[group.key]['subtotal'] -= item.price;
-                        _checkboxesValues[group.key].remove(item.value);
-                      }
-                    });
-
-                    _updateSubtotalCheckboxes(group.key);
-                    _handleChanges();
-                  },
-                ),
-              ],
-            ),
+                  _updateSubtotalCheckboxes(group.key);
+                  _handleChanges();
+                },
+              ),
+            ],
           );
+
+          if (group.showHorizontal) {
+            groupItems.add(groupItemWidget);
+          } else {
+            widgets.add(groupItemWidget);
+          }
+        }
+
+        if (group.showHorizontal) {
+          widgets.add(Wrap(children: groupItems));
         }
       }
       if (group.type == "select") {

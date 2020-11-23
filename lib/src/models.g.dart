@@ -30,7 +30,9 @@ Group _$GroupFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Item.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-  )..key = json['key'] as String;
+    key: json['key'] as String,
+    showHorizontal: json['showHorizontal'] as bool ?? false,
+  );
 }
 
 Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
@@ -41,6 +43,7 @@ Map<String, dynamic> _$GroupToJson(Group instance) => <String, dynamic>{
       'value': instance.value,
       'type': instance.type,
       'items': instance.items,
+      'showHorizontal': instance.showHorizontal,
     };
 
 Item _$ItemFromJson(Map<String, dynamic> json) {

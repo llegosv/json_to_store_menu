@@ -21,6 +21,7 @@ class _AllFields extends State<JsonStoreMenuExample> {
         "subtotal": 0.25,
         "value": 1,
         "type": "single",
+        "showHorizontal": true,
         "items": [
           {
             "label": "Label 1",
@@ -51,6 +52,7 @@ class _AllFields extends State<JsonStoreMenuExample> {
         "subtotal": 1.0,
         "value": [1, 2],
         "type": "multi",
+        "showHorizontal": true,
         "items": [
           {
             "label": "Label 1",

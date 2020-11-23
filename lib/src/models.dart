@@ -31,7 +31,19 @@ class Group {
   @JsonKey(name: "items")
   List<Item> items;
 
-  Group({this.title, this.description, this.subtotal, this.value, this.type, this.items});
+  @JsonKey(name: "showHorizontal", defaultValue: false)
+  bool showHorizontal = false;
+
+  Group({
+    this.title,
+    this.description,
+    this.subtotal,
+    this.value,
+    this.type,
+    this.items,
+    this.key,
+    this.showHorizontal,
+  });
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
   Map<String, dynamic> toJson() => _$GroupToJson(this);
@@ -46,7 +58,7 @@ class Item {
   @JsonKey(name: "value")
   int value;
   @JsonKey(ignore: true, defaultValue: false)
-  bool selected;
+  bool selected = false;
 
   Item({this.label, this.price, this.value});
 
